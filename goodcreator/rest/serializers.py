@@ -14,7 +14,17 @@ class GroupSerializer(serializers.HyperlinkedModelSerializer):
         model = Group
         fields = ['url', 'name']
 
-class EntrySerializer(serializers.HyperlinkedModelSerializer):
+
+
+
+class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Entry
-        fields = ['body']
+        fields = ['title']
+
+
+class EntrySerializer(serializers.ModelSerializer):
+    category_id = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
+    class Meta:
+        model = Entry
+        fields = ['title', 'body', 'category_id']

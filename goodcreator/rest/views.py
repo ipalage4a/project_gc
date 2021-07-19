@@ -1,8 +1,10 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import viewsets
 from rest_framework import permissions
-from goodcreator.models import Entry
-from goodcreator.rest.serializers import EntrySerializer, UserSerializer, GroupSerializer
+from rest_framework.exceptions import NotFound
+from rest_framework.generics import ListAPIView
+from goodcreator import models
+from goodcreator.rest.serializers import CategorySerializer, EntrySerializer, UserSerializer, GroupSerializer
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -24,5 +26,9 @@ class GroupViewSet(viewsets.ModelViewSet):
 
 
 class EntryViewSet(viewsets.ModelViewSet):
-    queryset = Entry.objects.all()
+    queryset = models.Entry.objects.all()
     serializer_class = EntrySerializer
+
+class CategoryViewSet(viewsets.ModelViewSet):
+    queryset = models.Category.objects.all()
+    serializer_class = CategorySerializer
