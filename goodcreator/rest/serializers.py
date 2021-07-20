@@ -20,11 +20,11 @@ class GroupSerializer(serializers.HyperlinkedModelSerializer):
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Entry
-        fields = ['title']
+        fields = ['id', 'title']
 
 
 class EntrySerializer(serializers.ModelSerializer):
     category_id = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
     class Meta:
         model = Entry
-        fields = ['title', 'body', 'category_id']
+        fields = ['id','title', 'body', 'category_id']

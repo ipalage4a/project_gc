@@ -6,9 +6,8 @@ from django.db.models.fields import UUIDField
 
 class ModelMixin(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    is_archive = models.BooleanField("заархивировано", default=False)
+    archive = models.BooleanField("архив", default=False)
     created_at = models.DateTimeField(auto_now_add=True)
-    updated_ad = models.DateTimeField(auto_now=True)
 
     class Meta:
         abstract = True

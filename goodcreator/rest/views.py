@@ -1,13 +1,18 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import viewsets
 from rest_framework import permissions
-from rest_framework.exceptions import NotFound
-from rest_framework.generics import ListAPIView
+
 from goodcreator import models
 from goodcreator.rest.serializers import CategorySerializer, EntrySerializer, UserSerializer, GroupSerializer
 
 
-class UserViewSet(viewsets.ModelViewSet):
+
+class ArchiveViewSetMixin:
+  def perform_destroy(self, instance):
+        instance.archive = True
+        instance.save()
+
+class UserViewSet(viewsets.ModelViewSet, ArchiveViewSetMixin):
     """
     API endpoint that allows users to be viewed or edited.
     """
@@ -16,7 +21,7 @@ class UserViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
 
-class GroupViewSet(viewsets.ModelViewSet):
+class GroupViewSet(viewsets.ModelViewSet, ArchiveViewSetMixin):
     """
     API endpoint that allows groups to be viewed or edited.
     """
@@ -25,10 +30,10 @@ class GroupViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
 
-class EntryViewSet(viewsets.ModelViewSet):
-    queryset = models.Entry.objects.all()
+class EntryViewSet(ArchiveViewSetMixin,viewsets.ModelViewSet):
+    queryset = models.Entry.objects.filter(archive=False).all()
     serializer_class = EntrySerializer
 
-class CategoryViewSet(viewsets.ModelViewSet):
-    queryset = models.Category.objects.all()
+class CategoryViewSet(ArchiveViewSetMixin, viewsets.ModelViewSet):
+    queryset = models.Category.objects.filter(archive=False).all()
     serializer_class = CategorySerializer

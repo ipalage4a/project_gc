@@ -1,0 +1,12 @@
+{% extends "goodcreator/layout.html" %}
+
+{% block content %}
+<div class="card mb-4">
+    <a href="#!"><img class="card-img-top" src="https://dummyimage.com/850x350/dee2e6/6c757d.jpg" alt="..." /></a>
+    <div class="card-body">
+        <div class="small text-muted">{{entry.created_at}}</div>
+        <h2 class="card-title">{{entry.title}}</h2>
+        <p class="card-text">{{entry.body}}</p>
+    </div>
+</div>
+{% endblock %}
